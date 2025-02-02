@@ -3,19 +3,30 @@ package com.project.app.modules.inventory.controller;
 import com.project.app.modules.inventory.dto.InventoryDTO;
 import com.project.app.modules.inventory.enums.MovementDirection;
 import com.project.app.modules.inventory.enums.MovementType;
+import com.project.app.modules.inventory.factory.InventoryServiceFactory;
+import com.project.app.modules.inventory.service.InventoryService;
+import com.project.app.modules.inventory.service.PurchaseInventoryService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/inventory-update")
 public class InventoryController {
 
+
+    private final InventoryServiceFactory inventoryServiceFactory;
+
+    @Autowired
+    public InventoryController(InventoryServiceFactory inventoryServiceFactory) {
+        this.inventoryServiceFactory = inventoryServiceFactory;
+    }
+
     // Call this API after a product is purchased
     @PostMapping("/product-purchased")
     public void productPurchased(@RequestBody InventoryDTO inventoryDTO) {
         // Handle the product purchase logic
-        inventoryDTO.setMovementType(MovementType.PURCHASE);
-        inventoryDTO.setMovementDirection(MovementDirection.IN);
-
+        InventoryService inventoryService = inventoryServiceFactory.getInventoryService(MovementType.PURCHASE);
+        inventoryService.updateInventory(inventoryDTO);
     }
 
     // Call this API after an order is placed
