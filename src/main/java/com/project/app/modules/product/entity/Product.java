@@ -17,15 +17,35 @@ public class Product {
     @Column(name = "product_id")
     private Integer productId;
 
+    @Column(name = "name")
+    private String name;
+
     @Column(name = "mrp")
     private BigDecimal mrp;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "status", columnDefinition = "ENUM('active', 'inactive', 'discontinued')")
+    @Column(name = "status")
     private ProductStatus status;
 
-    @Column(name = "updated_at", columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP")
+    @Column(name = "updated_at")
     private LocalDateTime updatedAt;
+
+    // Note: If you want to set things automatically!
+    @PrePersist
+    @PreUpdate
+    public void updateDefault() {
+        this.updatedAt = LocalDateTime.now();
+        this.status = ProductStatus.INACTIVE;
+    }
+
+    // Use Constructor and Getters only for immutability
+    public Product(Integer productId, String name, BigDecimal mrp, ProductStatus status, LocalDateTime updatedAt) {
+        this.productId = productId;
+        this.name = name;
+        this.mrp = mrp;
+        this.status = status;
+        this.updatedAt = updatedAt;
+    }
 
     public Product() {
     }
@@ -34,31 +54,19 @@ public class Product {
         return productId;
     }
 
-    public void setProductId(Integer productId) {
-        this.productId = productId;
+    public String getName() {
+        return name;
     }
 
     public BigDecimal getMrp() {
         return mrp;
     }
 
-    public void setMrp(BigDecimal mrp) {
-        this.mrp = mrp;
-    }
-
     public ProductStatus getStatus() {
         return status;
     }
 
-    public void setStatus(ProductStatus status) {
-        this.status = status;
-    }
-
     public LocalDateTime getUpdatedAt() {
         return updatedAt;
-    }
-
-    public void setUpdatedAt(LocalDateTime updatedAt) {
-        this.updatedAt = updatedAt;
     }
 }

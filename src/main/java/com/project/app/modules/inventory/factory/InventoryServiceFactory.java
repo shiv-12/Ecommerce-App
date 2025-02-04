@@ -4,6 +4,7 @@ import com.project.app.modules.inventory.annotation.InventoryType;
 import com.project.app.modules.inventory.enums.MovementType;
 import com.project.app.modules.inventory.exception.InvalidMovementTypeException;
 import com.project.app.modules.inventory.service.*;
+import org.springframework.aop.support.AopUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -19,8 +20,9 @@ public class InventoryServiceFactory {
     @Autowired
     public InventoryServiceFactory(List<InventoryService> services) {
         for (InventoryService service : services) {
-            InventoryType annotation = service.getClass().getAnnotation(InventoryType.class);
+            InventoryType annotation = AopUtils.getTargetClass(service).getAnnotation(InventoryType.class);
             if (annotation != null) {
+                System.out.println("annotation value : " + annotation.value());
                 serviceMap.put(annotation.value(), service);
             }
         }

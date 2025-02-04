@@ -5,12 +5,11 @@ import com.project.app.modules.inventory.enums.MovementDirection;
 import com.project.app.modules.inventory.enums.MovementType;
 import com.project.app.modules.inventory.factory.InventoryServiceFactory;
 import com.project.app.modules.inventory.service.InventoryService;
-import com.project.app.modules.inventory.service.PurchaseInventoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/inventory-update")
+@RequestMapping("/inventory")
 public class InventoryController {
 
 
@@ -19,6 +18,11 @@ public class InventoryController {
     @Autowired
     public InventoryController(InventoryServiceFactory inventoryServiceFactory) {
         this.inventoryServiceFactory = inventoryServiceFactory;
+    }
+
+    @GetMapping("/")
+    public String getMessage() {
+        return "Welcome to the Inventory Service!";
     }
 
     // Call this API after a product is purchased
@@ -71,3 +75,15 @@ public class InventoryController {
 
     }
 }
+
+
+/*
+
+🔥 Key Best Practices
+✔ Controller should be thin – no logic, only request handling.
+✔ Service should be thick – all business logic happens here.
+✔ Use DTOs for API communication, never expose Entities.
+✔ Entities should only represent the database, not contain logic.
+✔ Repositories should only interact with the database.
+
+*/
