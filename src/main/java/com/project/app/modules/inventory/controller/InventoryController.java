@@ -79,11 +79,17 @@ public class InventoryController {
 
 /*
 
-🔥 Key Best Practices
-✔ Controller should be thin – no logic, only request handling.
+Key Best Practices
+
+✔ Controller should be thin – no logic, only request handling using DTOs
+
 ✔ Service should be thick – all business logic happens here.
+    we can make use of design patterns and multiple classes and interfaces to build the logics.
+
 ✔ Use DTOs for API communication, never expose Entities.
+
 ✔ Entities should only represent the database, not contain logic.
+
 ✔ Repositories should only interact with the database.
 
 */
